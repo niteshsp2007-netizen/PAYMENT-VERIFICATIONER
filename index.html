@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Verification Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        #step2, #step3 { display: none; }
+        input, button { padding: 10px; font-size: 16px; margin-top: 10px; }
+        .error { color: red; font-weight: bold; }
+        .success { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- Step 1 -->
+    <div id="step1">
+        <h1>Verification</h1>
+        <label><input type="checkbox" id="robotCheck"> I am not a robot</label><br>
+        <button onclick="goToStep2()">Continue</button>
+        <p class="error" id="error1"></p>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="step2">
+        <h2>Enter Verification Code</h2>
+        <input type="text" id="codeInput" placeholder="Enter your code">
+        <button onclick="checkCode()">Verify</button>
+        <p class="error" id="error2"></p>
+        <p class="success" id="success2"></p>
+    </div>
+
+    <!-- Step 3 -->
+    <div id="step3">
+        <h2>Welcome</h2>
+        <p>Join our Telegram channels:</p>
+        <ul>
+            <li><a href="https://t.me/AVIATOR_PAYMENT_VERIFICATION_BOT" target="_blank">Telegram Channel 1</a></li>
+        </ul>
+    </div>
+
+<script>
+    const validCodes = [
+        "AVX65HG7DS"
+    ];
+
+    let usedCodes = [];
+
+    function goToStep2() {
+        const check = document.getElementById("robotCheck").checked;
+        if (!check) {
+            document.getElementById("error1").innerText = "Please confirm you are not a robot.";
+        } else {
+            document.getElementById("step1").style.display = "none";
+            document.getElementById("step2").style.display = "block";
+            document.getElementById("error1").innerText = "";
+        }
+    }
+
+    function checkCode() {
+        const code = document.getElementById("codeInput").value.trim();
+        if (usedCodes.includes(code)) {
+            document.getElementById("error2").innerText = "This code has already been used!";
+            return;
+        }
+        if (validCodes.includes(code)) {
+            usedCodes.push(code);
+            document.getElementById("error2").innerText = "";
+            document.getElementById("success2").innerText = "Code verified!";
+            setTimeout(() => {
+                document.getElementById("step2").style.display = "none";
+                document.getElementById("step3").style.display = "block";
+            }, 1000);
+        } else {
+            document.getElementById("error2").innerText = "Invalid code!";
+        }
+    }
+</script>
+
+</body>
+</html>
